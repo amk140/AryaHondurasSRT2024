@@ -3,9 +3,52 @@ title: "AryaHondurasSRT2024"
 ---
 
 ## Quarto
+```{r}
+library(tidyverse)
+library(psych)
+library(readxl)
+library(dplyr)
+library(knitr)
+library(foreign)
+library(ggplot2)
+library(magrittr)
+```
+
+```{r}
+qual |>
+  ggplot(aes(x=survey_location, fill=island_region))
+```
+
+```{r}
+qual |>
+  count(survey_location == 'Clinic') |>
+  mutate(prob = n/sum(n))
+```
+
+```{r}
+library(magrittr)
+
+qual2 <- data.frame(category = c("Clinic", "Community"),
+                    slices = c(170, 266))
+
+qual2 %>%
+  mutate(pct = round(slices / sum(slices) * 100)) %>%
+  mutate(labels = paste(category, pct, "%", sep = " ")) %>%
+  with({
+    pie(slices, labels = labels, col = rainbow(length(labels)),
+        main = "Clinic/Community")
+  })
+```
 
 Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see <https://quarto.org>.
 
 ```{r}
 1 + 1
+library(readr)
+RStudio_GitHub_Merged_Data_QUANT_A_B_Unknowns <- read_csv("RStudio_GitHub Merged Data (QUANT) - A+B Unknowns.csv")
+```
+
+
+```{r}
+View(RStudio_GitHub_Merged_Data_QUANT_A_B_Unknowns)
 ```
