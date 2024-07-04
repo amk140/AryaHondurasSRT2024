@@ -227,9 +227,9 @@ date,group_no,survey_lang,relation_to_child,island_region,community,colonia,surv
 01-07-24,A228,Spanish ,Mother,1,Colonia - Bella Vista ,Yes,Clinic,4,1,Yes,1981,20,4,6,1,30,,Hosp,Yes,Yes,Yes,Yes,Yes,Yes
 01-07-24,A229,Spanish ,Mother,1,Sandy Bay,No,Clinic,4,2,Yes,1993,28,5,bachelarito de ciencas y letra,3,,3,Hosp,Yes,Yes,Yes,Yes,Yes,Yes
 01-07-24,A230,English,Grandmother,3,Corozal,No,Clinic,4,1,Yes,1965,all,6,6,1,,20,Hosp,Yes,Unsure,Yes,Yes,Yes,Yes
-01-07-24,A231,Spanish,Mother,2,La Colonia Punta Cariba - Coxen Hole,Yes,Clinic,3,1,Yes,1998,10,3,bachilerato,3,,30,Centro,Yes,Yes,Unsure,Yes,Yes,Yes
+01-07-24,A231,Spanish,Mother,2,La Colonia Punta Cariba - Coxen Hole,No,Clinic,3,1,Yes,1998,10,3,bachilerato,3,,30,Centro,Yes,Yes,Unsure,Yes,Yes,Yes
 01-07-24,A232,Spanish,Mother,2,El swampo,No,Clinic,5,3,No,2001,18,4,6,1,,30,Hosp ,Yes,Yes,Yes,Yes,Yes,Yes
-01-07-24,A233,Spanish,Mother,2,Spanish Town,No,Clinic,4,2,Yes,1993,0.42,1,6,1,,25,La Ceiba,No ,Unsure,Yes,No,Yes,Yes
+01-07-24,A233,Spanish,Mother,2,Spanish Town,No,Clinic,4,2,Yes,1993,0.42,1,6,1,,25,Other,No ,Unsure,Yes,No,Yes,Yes
 01-07-24,A234,Spanish,Sister,3,Crawfish Rock,No,Community,4,1,Yes,2005,18,4,ahorita ultimo,3,,,"Hosp, Brigade",Yes,Unsure,Yes,Unsure,Yes,Yes
 01-07-24,A235,Spanish,Aunt,3,Crawfish Rock,No,Community,4,2,Yes,1997,0.5,1,9,2,,,"CE, Centro ",Yes,Yes,Yes,Yes,Yes,Yes
 21-05-24,B1,Spanish,,1,La Colonia,Yes,Community,4,2,,,2,2,6,1,,,,Yes,Yes,Yes,Yes,Yes,Yes
@@ -246,7 +246,7 @@ date,group_no,survey_lang,relation_to_child,island_region,community,colonia,surv
 22-05-24,B12,Spanish,,1,La Colonia,Yes,Community,6,3,Yes,,15,4,6,1,30,,,Yes,Yes,No,Yes,Yes,Yes
 22-05-24,B13,Spanish,,1,La Colonia,Yes,Community,8,5,Yes,,11,4,12,3,,3,,Yes,Yes,Yes,Yes,Yes,Yes
 22-05-24,B14,Spanish,,1,La Colonia,Yes,Community,6,2,Yes,,11,4,9,2,17.5,,,Yes,Yes,No,Yes,Yes,Yes
-22-05-24,B15,Spanish,,1,La Colonia,Yes,Community,7,2,Yes,,all,6,9,2,30,,,Yes,Yes,No,,Yes,Yes
+22-05-24,B15,Spanish,,1,La Colonia,Yes,Community,7,2,Yes,,all,6,9,2,30,,,,,,,,
 23-05-24,B16,Spanish,,1,La Colonia,Yes,Community,4,1,Yes,,2,2,6,1,5,,,Yes,Yes,No,Yes,Yes,Yes
 23-05-24,B17,Spanish,,1,La Colonia,Yes,Community,4,1,Yes,,0.67,1,6,1,15,,,Yes,Yes,Yes,Yes,Yes,Yes
 23-05-24,B18,Spanish,,1,La Colonia,Yes,Community,5,3,Yes,,many,7,6,1,15,,,Yes,Yes,Yes,Yes,Yes,Yes
@@ -327,7 +327,7 @@ date,group_no,survey_lang,relation_to_child,island_region,community,colonia,surv
 07-06-24,B94,Spanish,,1,Aldin,No,Community,3,1,Yes,2005,18,4,5,1,30,,CE,Yes,Yes,Yes,Yes,Yes,Yes
 07-06-24,B95,Spanish,,1,Aldin,No,Community,4,2,Yes,1985,17,4,6,1,30,,CE,Yes,Yes,Yes,Yes,Yes,Yes
 07-06-24,B96,Spanish,,1,Aldin,No,Community,3,2,No,1990,10,3,6,1,30,,"Hosp, Brigade",No,Yes,Unsure,No,Yes,No
-10-06-24,B97,Spanish,,4,Brick Bay,No,Clinic,3,1,Yes,1998,all,6,bachillero,3,,30,Hosp,Yes,,,,,
+10-06-24,B97,Spanish,,4,Brick Bay,No,Clinic,3,1,Yes,1998,all,6,bachillero,3,,30,Hosp,,,,,,
 10-06-24,B98,Spanish,,1,Sandy Bay,No,Clinic,3,1,Yes,2000,all,6,7,2,,15,"CE, Hosp",Yes,Yes,Yes,Yes,Yes,Yes
 10-06-24,B99,Spanish,,1,La Colonia,Yes,Clinic,5,2,Yes,1988,20,4,7,2,20,,CE,Yes,Yes,Unsure,Unsure,Yes,Yes
 10-06-24,B100,Spanish,,1,La Colonia,Yes,Clinic,3,1,Yes,1995,8,3,9,2,20,,CE,Yes,Yes,Yes,Yes,Yes,Yes
@@ -390,7 +390,7 @@ date,group_no,survey_lang,relation_to_child,island_region,community,colonia,surv
 21-06-24,B157,English,Grandmother,2,Spring Garden 2,No,Clinic,3,3,Yes,1952,all,6,9,2,,17.5,,Yes,Unsure,Yes,No,Yes,Yes
 21-06-24,B158,Spanish/English,Father,2,Loma Linda,No,Clinic,6,2,Yes,1993,28,5,5,1,,30,"Hosp, Other",Yes,Yes,Yes,Yes,Yes,Yes
 24-06-24,B159,Spanish,Mother,1,Policarpo,Yes,Clinic,3,1,Yes,1999,3,2,9,2,10,,"CE, Other",Yes,Yes,Unsure,Yes,Yes,Yes
-24-06-24,B160,Spanish,Mother,2,Brasil - Coxen Hole,No,Clinic,6,2,Yes,1987,20,4,5,1,,30,Hosp,Yes,Yes,,,,
+24-06-24,B160,Spanish,Mother,2,Brasil - Coxen Hole,No,Clinic,6,2,Yes,1987,20,4,5,1,,30,Hosp,,,,,,
 24-06-24,B161,Spanish,Mother,2,Spring Garden 1,No,Clinic,6,2,Yes,2003,all,6,7,2,,30,Hosp,Yes,Unsure,No,Unsure,Yes,Yes
 24-06-24,B162,Spanish,Mother,1,La Colonia - Balfate,Yes,Clinic,4,1,Yes,1994,all,6,12,3,,30,Hosp,Yes,Unsure,Yes,Yes,Yes,Yes
 24-06-24,B163,Spanish,Mother,4,Los Fuertes,No,Clinic,7,2,Yes,1986,all,6,0,0,,60,Centro,Yes,Yes,Unsure,Unsure,Yes,Yes
@@ -417,7 +417,7 @@ date,group_no,survey_lang,relation_to_child,island_region,community,colonia,surv
 27-06-24,B184,Spanish,Mother,1,La Colonia - Bella Vista,Yes,Clinic,4,1,Yes,1981,20,4,3,1,30,,"Hosp, Brigade",Yes,Yes,No,Yes,Yes,Yes
 27-06-24,B185,Spanish,Mother,3,Hottest Sparrow,No,Community,4,2,Yes,1999,12,4,6,1,,30,Centro,Yes,Yes,Yes,Yes,Yes,Yes
 27-06-24,B186,Spanish,Mother,3,Hottest Sparrow,No,Community,3,1,Yes,2004,0.25,1,9,2,,20,"Brigade, Other",Yes,Unsure,Yes,Yes,Yes,Yes
-27-06-24,B187,English,Mother,3,Hottest Sparrow,No,Community,4,2,Yes,1993,all,6,11,3,,25,Hosp,No,Yes,Unsure,,Yes,Yes
+27-06-24,B187,English,Mother,3,Hottest Sparrow,No,Community,4,2,Yes,1993,all,6,11,3,,25,Hosp,,,,,,
 27-06-24,B188,Spanish,Mother,3,Hottest Sparrow,No,Community,4,2,Yes,1990,10,3,6,1,,20,"Hosp, Brigade",Yes,Unsure,Yes,Yes,Yes,Yes
 27-06-24,B189,Spanish,Mother,3,Hottest Sparrow,No,Community,5,3,Yes,1997,1.5,2,"plan basico, carrera uno?",3,,35,Other,Yes,Yes,Yes,Unsure,Yes,Yes
 27-06-24,B190,Spanish,Mother,3,Hottest Sparrow,No,Community,6,1,Yes,2002,all,6,carrera/bachillerato,3,,25,Other,Yes,Unsure,Yes,No,Yes,Yes
@@ -434,4 +434,4 @@ date,group_no,survey_lang,relation_to_child,island_region,community,colonia,surv
 29-06-24,B201,Spanish,Mother,1,Berrinche,No,Community,4,2,Yes,1996,6,3,6,1,,5,"CE, Hosp, Other",Yes,Yes,Yes,Yes,Yes,Yes
 29-06-24,B202,Spanish,Mother,1,Berrinche,No,Community,6,2,Yes,1985,36,5,1,1,,5,Hosp,Yes,Yes,Yes,Yes,Yes,Yes
 01-07-24,B203,Spanish,Sister,3,Crawfish Rock,No,Community,4,2,Yes,2003,no recuerdo,8,ultimo de carrera currently,3,,,"Centro, Brigade",Yes,Yes,Unsure,Yes,Yes,Yes
-01-07-24,B204,Spanish,Grandmother,3,Crawfish Rock,No,Community,6,2,Yes,1963,siempre vengo y voy,9,8,2,,,"Centro, Other",Yes,Unsure,,Yes,Yes,Yes
+01-07-24,B204,Spanish,Grandmother,3,Crawfish Rock,No,Community,6,2,Yes,1963,siempre vengo y voy,9,8,2,,,"Centro, Other",,,,,,
