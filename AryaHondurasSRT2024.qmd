@@ -12,6 +12,15 @@ library(knitr)
 library(foreign)
 library(ggplot2)
 library(magrittr)
+library(diagram)
+library(igraph)
+library(showtext)
+```
+
+```{r}
+library(readr)
+qual <- read_csv("RStudio_GitHub Merged Data (QUAL) - Qual.csv")
+View(qual)
 ```
 
 ```{r}
@@ -42,10 +51,84 @@ qual_tibble %>%
 
 ```{r}
 qual |>
-  count(survey_lang == 'Spanish') |>
-  mutate(prob = n/sum(n))
+  filter(preg_seis != 'NA')|>
+  filter(last_grade_category == '4') |>
+ count(preg_seis) |>
+mutate(prob = n/sum(n))
+
 
 ```
+```{r}
+qual |>
+  count(vax_location) |>
+  mutate(prob = n/sum(n))
+```
 
+```{r}
+
+qualnew <- qual %>%
+  mutate(vaxedatce = if_else(grepl("CE", vax_location), "Contains CE", "Does not contain CE"))
+
+qual|>
+filter (vax_location != "NA") |>
+ggplot(aes( x=island_region, fill = vaxedatce)) +
+geom_histogram() +
+labs ( x = "Island region", y = "Proportion", fill = "Includes CE")
+```
+```{r}
+qualnew |>
+  count(vaxedatce) |>
+  mutate(prob = n/sum(n))
+```
+```{r}
+#code to make plot for Survey Location Distribution
+qual |>
+  ggplot( aes(x = survey_location, fill = survey_location)) + 
+  geom_bar() +
+  labs(x = "Survey Location", y = "# Surveys Administered", title = "Distribution of Survey Location")
+ggsave("plot1.png")
+```
+```{r}
+qual |>
+  filter (relation_to_child != "NA") |>
+  ggplot( aes(x = relation_to_child, fill = relation_to_child)) + 
+  geom_bar() +
+  labs(x = "Relationship to Child", y = "# of Respondents", title = "Distribution of Respondent Relationships to Child") +
+  theme(axis.text.x = element_blank())
+  ggsave("plot1.png")
+```
+```{r}
+qualnew1 <- qual %>%
+  mutate(vaxedatce = if_else(grepl("CE", "Centro", vax_location), "Contains CE", "Does not contain CE"))
+```
+
+```{r}
+library(ggplot2)
+library(dplyr)
+
+
+
+# Filter out NA values (if any)
+qualnew <- qualnew %>%
+  filter(!is.na(relation_to_child))
+
+# Calculate counts for each category
+count_df <- qualnew %>%
+  count(relation_to_child)
+
+# Plot the bar graph with counts on top
+ggplot(data = count_df, aes(x = relation_to_child, y = n, fill = relation_to_child)) +
+  geom_bar(stat = "identity") +
+  geom_text(aes(label = n), vjust = -0.5, size = 2.6, color = "black") +  # Add text labels on top of bars
+  labs(x = "Relationship to Child", y = "# of Respondents", title = "Distribution of Respondent Relationships to Child") +
+  theme(axis.text.x = element_blank())
+  ggsave("plot2.png")
+```
+```{r}
+qualnew |>
+  filter(relation_to_child != 'NA')|>
+  count(relation_to_child) |>
+  mutate(prob = n/sum(n))
+```
 
 Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see <https://quarto.org>.
