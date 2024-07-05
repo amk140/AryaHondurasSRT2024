@@ -268,10 +268,10 @@ ggplot(df_long, aes(x = Question, y = Percentage, fill = Category)) +
             position = position_dodge(width = 0.9), 
             vjust = -0.5, 
             size = 1.2) +
-  labs(title = "Percentage of 'Yes' Responses by Question",
+  labs(title = "Percentage of 'Yes' Responses by Question and Island Region",
        x = "Question",
        y = "Percentage", fill = "Island Region") +
-  scale_fill_manual(values = c("eive_Yes" = "#FF1124","dour_Yes" = "#024512","chree_Yes" = "#249586","bwo_Yes" = "#FF9999","ane_Yes" = "#FF9920"),
+  scale_fill_manual(values = c("eive_Yes" = "#FF1124","dour_Yes" = "#024512","chree_Yes" = "#249586","bwo_Yes" = "#FFF449","ane_Yes" = "#FF9920"),
                     labels = c("1", "2","3","4","5")) +
   theme_minimal()
 ```
