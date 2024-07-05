@@ -165,7 +165,7 @@ qual_counts <- qual_filtered %>%
 ggplot(qual_counts, aes(x = colonia, y = proportion, fill = last_grade_category)) +
   geom_bar(position = "fill", stat = "identity") +
   geom_text(aes(label = count), position = position_fill(vjust = 0.5), size = 3) +
-  labs(x = "La Colonia - Yes or No", y = "Proportion", title = "Distribution of Education Levels in La Colonia versus Others", fill = "Education Level")
+  labs(x = "La Colonia - Yes or No", y = "Proportion", title = "Distribution of Education Levels in La Colonia versus Non-Colonia Communities", fill = "Education Level")
 ggsave("plot3.png")
 ```
 
@@ -274,6 +274,75 @@ ggplot(df_long, aes(x = Question, y = Percentage, fill = Category)) +
   scale_fill_manual(values = c("eive_Yes" = "#FF1124","dour_Yes" = "#024512","chree_Yes" = "#249586","bwo_Yes" = "#FFF449","ane_Yes" = "#FF9920"),
                     labels = c("1", "2","3","4","5")) +
   theme_minimal()
+```
+
+```{r}
+library(tidyr)
+library(ggplot2)
+df <- data.frame(
+  Question = c("Question 1", "Question 2", "Question 3", "Question 4", "Question 5", "Question 6"),
+  Non_Colonia_Yes = c(0.877, 0.717, 0.713, 0.713, 0.996, 0.984),
+  Colonia_Yes = c(0.832, 0.778, 0.649, 0.816, 0.995, 0.989)
+)
+
+
+
+# Plot using ggplot2
+library(tidyr)
+df_long <- gather(df, key = "Category", value = "Percentage", -Question)
+
+# Plot using ggplot2
+ggplot(df_long, aes(x = Question, y = Percentage, fill = Category)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  geom_text(aes(label = paste0(round(Percentage * 100), "%"), 
+                y = Percentage,
+                group = Category)
+            position = position_dodge(width = 0.9), 
+            vjust = -0.5, 
+            size = 3) +
+  labs(title = "Percentage of 'Yes' Responses by Question and Colonia status",
+       x = "Question",
+       y = "Percentage") +
+  scale_fill_manual(values = c("Non_Colonia_Yes" = "#009999", "Colonia_Yes" = "#FF9933"),
+                  labels = c("La Colonia", "Non-Colonia")) +
+  theme_minimal()
+ggsave("coloniabeliefs.png")
+```
+
+```{r}
+
+library(tidyr)
+library(ggplot2)
+df <- data.frame(
+  Vaccine = c("aaHep B", "abBCG", "acPolio VPI 1", "adPolio VPI 2", "aePolio VOP 1", "afPolio VOP 2", "agPenta 1", "ahPenta 2", "aiPenta3","ajnuemo1","aknuemo2","alnuemo3","amrota1","anrota2","aommr1","apmmr2","aqhepA","arDPT1","asDPT2","atvph1","autet"),
+  Colonia_Yes = c(0.9378882, 0.9689441, 0.8447205, 0.7, 0.9551282, 0.9379845, 0.9937888, 0.98125, 0.9679487, 0.9689441, 0.95625, 0.9423077, 0.9813665, 0.96875, 0.971831, 0.8294574, 0.4859155, 0.875969, 0.8068182, 0.2, 0.4285714),
+  Non_Colonia_Yes = c(0.9541284, 0.9724771, 0.8888889, 0.7663551, 0.9081633, 0.8947368, 0.9722222, 0.9252336, 0.8979592, 0.9722222, 0.9158879, 0.9081633, 0.9722222, 0.9158879, 0.9090909, 0.8026316, 0.5454545, 0.8947368, 0.7804878, 0, 0.5)
+)
+
+
+# Plot using ggplot2
+library(tidyr)
+df_long <- gather(df, key = "Category", value = "Percentage", -Vaccine)
+
+# Plot using ggplot2
+ggplot(df_long, aes(x = Vaccine, y = Percentage, fill = Category)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  geom_text(aes(label = paste0(round(Percentage * 100), "%"), 
+                y = Percentage, 
+                group = Category), 
+            position = position_dodge(width = 0.9), 
+            vjust = -0.5, 
+            size = 1.2) +
+  labs(title = "Vaccine Adherence in La Colonia vs Non-Colonia Communities",
+       x = "Vaccine",
+       y = "Percentage", fill = "Category") +
+    scale_fill_manual(values = c("Colonia_Yes" = "#6495ED","Non_Colonia_Yes" = "#CD5C5C"),
+                    labels = c("La Colonia", "Non-Colonia")) +
+  scale_x_discrete(labels = c("Hepatitis B", "BCG", "Polio VPI 1", "Polio VPI 2", "Polio VOP 1", "Polio VOP 2", "Pentavalent 1", "Pentavalent 2", "Pentavalent 3", "Pneumococcal 1","Pneumococcal 2","Pneumococcal 3","Rotavirus 1","Rotavirus 2", "MMR 1","MMR 2", "Hepatitis A", "DPT 1", "DPT 2","HPV 1","Tetanus (Td)")) +  # Set x-axis labels
+ theme_minimal() +
+  theme(
+    axis.text.x = element_text(angle = 80, vjust = 0.2, hjust = 0.03))
+
 ```
 
 Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see <https://quarto.org>.
