@@ -95,12 +95,12 @@ qualnew |>
 qual |>
   ggplot( aes(x = survey_location, fill = survey_location)) + 
   geom_bar() +
-  labs(x = "Survey Location", y = "# Surveys Administered", title = "Distribution of Survey Location")
+  labs(x = "Survey Location", y = "# Surveys Administered", title = "Distribution of Survey Location", fill = "Survey Location")
 ggsave("plot1.png")
 ```
 
 ```{r}
-#idk!
+#relation to child plot w/o numbers
 qual |>
   filter (relation_to_child != "NA") |>
   ggplot( aes(x = relation_to_child, fill = relation_to_child)) + 
@@ -121,18 +121,18 @@ library(ggplot2)
 library(dplyr)
 
 # Filter out NA values (if any)
-qualnew <- qualnew %>%
+qual <- qual %>%
   filter(!is.na(relation_to_child))
 
 # Calculate counts for each category
-count_df <- qualnew %>%
+count_df <- qual %>%
   count(relation_to_child)
 
 # Plot the bar graph with counts on top
 ggplot(data = count_df, aes(x = relation_to_child, y = n, fill = relation_to_child)) +
   geom_bar(stat = "identity") +
   geom_text(aes(label = n), vjust = -0.5, size = 2.6, color = "black") +  # Add text labels on top of bars
-  labs(x = "Relationship to Child", y = "# of Respondents", title = "Distribution of Respondent Relationships to Child") +
+  labs(x = "Relationship to Child", y = "# of Respondents", title = "Distribution of Respondent Relationships to Child", fill = "Relation to Child") +
   theme(axis.text.x = element_blank())
   ggsave("plot2.png")
 ```
@@ -169,9 +169,105 @@ qual_counts <- qual_filtered %>%
 ggplot(qual_counts, aes(x = island_region, y = proportion, fill = last_grade_category)) +
   geom_bar(position = "fill", stat = "identity") +
   geom_text(aes(label = count), position = position_fill(vjust = 0.5), size = 3) +
-  labs(x = "Island Region", y = "Proportion", title = "Distribution of Education Levels by Island Region")
+  labs(x = "Island Region", y = "Proportion", title = "Distribution of Education Levels by Island Region", fill = "Last Grade Category")
 ggsave("plot3.png")
 
+```
+
+```{r}
+#Distribution of Education Levels by La Colonia vs Not Plot
+library(ggplot2)
+library(dplyr)
+library(forcats)  
+
+qual_filtered <- qual %>%
+  filter(!is.na(last_grade_category)) %>%
+  mutate(
+    last_grade_category = as.factor(last_grade_category),
+    last_grade_category = fct_relevel(last_grade_category, "4", "3", "2", "1", "0"),
+    colonia = as.factor(colonia),
+    colonia = fct_relevel(colonia, "La Colonia", "Non-Colonia")
+  )
+
+# Calculate counts and proportions
+qual_counts <- qual_filtered %>%
+  group_by(colonia, last_grade_category) %>%
+  summarise(count = n(), .groups = 'drop') %>%
+  mutate(proportion = count / sum(count))
+
+# Plotting
+ggplot(qual_counts, aes(x = colonia, y = proportion, fill = last_grade_category)) +
+  geom_bar(position = "fill", stat = "identity") +
+  geom_text(aes(label = count), position = position_fill(vjust = 0.5), size = 3) +
+  labs(x = "La Colonia - Yes or No", y = "Proportion", title = "Distribution of Education Levels in La Colonia versus Others", fill = "Last Grade Category")
+ggsave("plot3.png")
+```
+
+```{r}
+#distribution of where respondents live on the island
+library(ggplot2)
+library(dplyr)
+
+# Filter out NA values (if any)
+qual <- qual %>%
+  filter(!is.na(island_region))
+
+# Calculate counts for each category
+count_df <- qual %>%
+  count(island_region)
+
+# Plot the bar graph with counts on top
+ggplot(data = count_df, aes(x = island_region, y = n, fill = island_region)) +
+  geom_bar(stat = "identity") +
+  geom_text(aes(label = n), vjust = -0.5, size = 2.3, color = "black") +  # Add text labels on top of bars
+  labs(x = "Island Region", y = "# of Respondents", title = "Distribution of Respondent Residences", fill = "Region") +
+  theme(axis.text.x = element_blank())
+  ggsave("plot2.png")
+```
+
+```{r}
+#Plotting percent of questions answered 'Yes' versus education level
+library(tidyr)
+library(ggplot2)
+df <- data.frame(
+  Question = c("Question 1", "Question 2", "Question 3", "Question 4", "Question 5", "Question 6"),
+  Four_Yes = c(1.0, 0.7391, 0.7826, 0.7826, 1.0, 1.0),
+  Three_Yes = c(0.8936, 0.7357, 0.70, 0.6978, 0.9929, 0.9929),
+  Two_Yes = c(0.8673, 0.7857, 0.6495, 0.7010, 1.0, 0.9898),
+  One_Yes = c(0.8217, 0.7197, 0.6859, 0.8333, 0.9936,	0.9744),
+  Zero_Yes = c(0.60,	0.60, 0.40, 0.80, 1.0, 1.0)
+)
+
+# Plot using ggplot2
+library(tidyr)
+df_long <- gather(df, key = "Category", value = "Percentage", -Question)
+
+# Plot using ggplot2
+ggplot(df_long, aes(x = Question, y = Percentage, fill = Category)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  labs(title = "Percentage of 'Yes' Responses by Question and Education Level",
+       x = "Question",
+       y = "Percentage", fill = "Education Level") +
+  scale_fill_manual(values = c("Four_Yes" = "#FF4345","Three_Yes" = "#FFFF2359","Two_Yes" = "#249586","One_Yes" = "#FF9999","Zero_Yes" = "#FF9920"),
+                    labels = c("4", "3","2","1","0")) +
+  theme_minimal()
+
+```
+
+```{r}
+#plot showing distribution of vaccination locations
+library(magrittr)
+
+qual_tibble <- data.frame(category = c("CE", "Hospital", "Centro de Salud", "Bridgade","Other"), 
+                          slices = c(118, 181, 91, 34, 31))
+
+qual_tibble %>%
+  mutate(pct = round(slices / sum(slices) * 100)) %>%
+  mutate(labels = paste(category, pct, "%", sep = " ")) %>%
+  with({
+    pie(.$slices, labels = .$labels, col = rainbow(nrow(.)),
+        main = "Distribution of Vaccination Locations")
+  })
 ```
 
 Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see <https://quarto.org>.
