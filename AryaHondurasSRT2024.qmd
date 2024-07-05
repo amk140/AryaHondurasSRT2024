@@ -25,23 +25,7 @@ View(qual)
 ```
 
 ```{r}
-library(readr)
-qual <- read_csv("RStudio_GitHub Merged Data (QUAL) - Qual.csv")
-View(qual)
-```
-
-```{r}
-library(readr)
-qual <- read_csv("RStudio_GitHub Merged Data (QUAL) - Qual.csv")
-View(qual)
-```
-
-```{r}
-qual |>
-  ggplot(aes(x=survey_location, fill=island_region))
-```
-
-```{r}
+#pie chart for clinic versus community surveys
 library(magrittr)
 
 qual_tibble <- data.frame(category = c("Clinic", "Community"),
@@ -59,7 +43,7 @@ qual_tibble %>%
 ```{r}
 qual |>
   filter(preg_seis != 'NA')|>
-  filter(last_grade_category == '4') |>
+  filter(island_region == '5') |>
  count(preg_seis) |>
 mutate(prob = n/sum(n))
 
@@ -68,25 +52,7 @@ mutate(prob = n/sum(n))
 
 ```{r}
 qual |>
-  count(vax_location) |>
-  mutate(prob = n/sum(n))
-```
-
-```{r}
-
-qualnew <- qual %>%
-  mutate(vaxedatce = if_else(grepl("CE", vax_location), "Contains CE", "Does not contain CE"))
-
-qual|>
-filter (vax_location != "NA") |>
-ggplot(aes( x=island_region, fill = vaxedatce)) +
-geom_histogram() +
-labs ( x = "Island region", y = "Proportion", fill = "Includes CE")
-```
-
-```{r}
-qualnew |>
-  count(vaxedatce) |>
+  count(colonia) |>
   mutate(prob = n/sum(n))
 ```
 
@@ -121,7 +87,7 @@ library(ggplot2)
 library(dplyr)
 
 # Filter out NA values (if any)
-qual <- qual %>%
+qual_relationship <- qual %>%
   filter(!is.na(relation_to_child))
 
 # Calculate counts for each category
@@ -169,7 +135,7 @@ qual_counts <- qual_filtered %>%
 ggplot(qual_counts, aes(x = island_region, y = proportion, fill = last_grade_category)) +
   geom_bar(position = "fill", stat = "identity") +
   geom_text(aes(label = count), position = position_fill(vjust = 0.5), size = 3) +
-  labs(x = "Island Region", y = "Proportion", title = "Distribution of Education Levels by Island Region", fill = "Last Grade Category")
+  labs(x = "Island Region", y = "Proportion", title = "Distribution of Education Levels by Island Region", fill = "Education Level")
 ggsave("plot3.png")
 
 ```
@@ -199,7 +165,7 @@ qual_counts <- qual_filtered %>%
 ggplot(qual_counts, aes(x = colonia, y = proportion, fill = last_grade_category)) +
   geom_bar(position = "fill", stat = "identity") +
   geom_text(aes(label = count), position = position_fill(vjust = 0.5), size = 3) +
-  labs(x = "La Colonia - Yes or No", y = "Proportion", title = "Distribution of Education Levels in La Colonia versus Others", fill = "Last Grade Category")
+  labs(x = "La Colonia - Yes or No", y = "Proportion", title = "Distribution of Education Levels in La Colonia versus Others", fill = "Education Level")
 ggsave("plot3.png")
 ```
 
@@ -231,11 +197,11 @@ library(tidyr)
 library(ggplot2)
 df <- data.frame(
   Question = c("Question 1", "Question 2", "Question 3", "Question 4", "Question 5", "Question 6"),
-  Four_Yes = c(1.0, 0.7391, 0.7826, 0.7826, 1.0, 1.0),
-  Three_Yes = c(0.8936, 0.7357, 0.70, 0.6978, 0.9929, 0.9929),
-  Two_Yes = c(0.8673, 0.7857, 0.6495, 0.7010, 1.0, 0.9898),
-  One_Yes = c(0.8217, 0.7197, 0.6859, 0.8333, 0.9936,	0.9744),
-  Zero_Yes = c(0.60,	0.60, 0.40, 0.80, 1.0, 1.0)
+  jour_Yes = c(1.0, 0.7391, 0.7826, 0.7826, 1.0, 1.0),
+  ihree_Yes = c(0.8936, 0.7357, 0.70, 0.6978, 0.9929, 0.9929),
+  hwo_Yes = c(0.8673, 0.7857, 0.6495, 0.7010, 1.0, 0.9898),
+  gne_Yes = c(0.8217, 0.7197, 0.6859, 0.8333, 0.9936,	0.9744),
+  fero_Yes = c(0.60,	0.60, 0.40, 0.80, 1.0, 1.0)
 )
 
 # Plot using ggplot2
@@ -245,11 +211,17 @@ df_long <- gather(df, key = "Category", value = "Percentage", -Question)
 # Plot using ggplot2
 ggplot(df_long, aes(x = Question, y = Percentage, fill = Category)) +
   geom_bar(stat = "identity", position = "dodge") +
+  geom_text(aes(label = paste0(round(Percentage * 100), "%"), 
+              y = Percentage, 
+              group = Category), 
+            position = position_dodge(width = 0.9), 
+            vjust = -0.5, 
+            size = 1.5) +
   labs(title = "Percentage of 'Yes' Responses by Question and Education Level",
        x = "Question",
        y = "Percentage", fill = "Education Level") +
-  scale_fill_manual(values = c("Four_Yes" = "#FF4345","Three_Yes" = "#FFFF2359","Two_Yes" = "#249586","One_Yes" = "#FF9999","Zero_Yes" = "#FF9920"),
-                    labels = c("4", "3","2","1","0")) +
+  scale_fill_manual(values = c("jour_Yes" = "#FF4345","ihree_Yes" = "#FFFF2359","hwo_Yes" = "#249586","gne_Yes" = "#FF9999","fero_Yes" = "#FF9920"),
+                    labels = c("0", "1","2","3","4")) +
   theme_minimal()
 
 ```
@@ -268,6 +240,40 @@ qual_tibble %>%
     pie(.$slices, labels = .$labels, col = rainbow(nrow(.)),
         main = "Distribution of Vaccination Locations")
   })
+```
+
+```{r}
+#Plotting percent of questions answered 'Yes' versus island region
+library(tidyr)
+library(ggplot2)
+df <- data.frame(
+  Question = c("Question 1", "Question 2", "Question 3", "Question 4", "Question 5", "Question 6"),
+  eive_Yes = c(1,	0.7142857,	0.8571429,	0.8571429,	1,	1),
+  dour_Yes = c(0.8695652, 0.6956522,	0.82608696,	0.73913043,	1,	1),
+  chree_Yes = c(0.83606557,	0.6721311,	0.7377049,	0.73770492,	1,	0.96721311),
+  bwo_Yes = c(0.8795181,	0.6746988,	0.686747,	0.72289157,	1,	0.98795181),
+  ane_Yes = c(0.85098039,	0.78823529,	0.654902,	0.77254902,	0.992156863,	0.988235294)
+)
+
+# Plot using ggplot2
+library(tidyr)
+df_long <- gather(df, key = "Category", value = "Percentage", -Question)
+
+# Plot using ggplot2
+ggplot(df_long, aes(x = Question, y = Percentage, fill = Category)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  geom_text(aes(label = paste0(round(Percentage * 100), "%"), 
+              y = Percentage, 
+              group = Category), 
+            position = position_dodge(width = 0.9), 
+            vjust = -0.5, 
+            size = 1.2) +
+  labs(title = "Percentage of 'Yes' Responses by Question",
+       x = "Question",
+       y = "Percentage", fill = "Island Region") +
+  scale_fill_manual(values = c("eive_Yes" = "#FF1124","dour_Yes" = "#024512","chree_Yes" = "#249586","bwo_Yes" = "#FF9999","ane_Yes" = "#FF9920"),
+                    labels = c("1", "2","3","4","5")) +
+  theme_minimal()
 ```
 
 Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see <https://quarto.org>.
