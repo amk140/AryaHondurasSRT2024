@@ -49,7 +49,7 @@ View(qual_edit)
 ```{r}
 qual_edit |>
   filter(preg_score != 'NA')|>
-  filter(last_grade == '13') |>
+  filter(colonia == 'No') |>
  count(preg_score) |>
 mutate(prob = n/sum(n))
 ```
@@ -399,6 +399,72 @@ lm_model <- lm(preg_score ~ as.numeric(last_grade), data = df)  # Note: Convert 
 
 # Display summary of the linear regression model
 summary(lm_model)
+```
+
+```{r}
+library(tidyr)
+library(ggplot2)
+
+df <- data.frame(
+  colonia = c("No", "Yes"),
+  preg_score = c(5.24795, 5.3026027027)
+)
+
+# Convert colonia to factor
+df$colonia <- factor(df$colonia, levels = c("No", "Yes"))
+
+# Create the plot with ggplot2
+ggplot(df, aes(x = colonia, y = preg_score)) +
+  geom_point(color = "#000045", size = 3, alpha = 0.8) +  # Custom color, size, and transparency
+  labs(title = "La Colonia or Not vs. Average Response Score",
+       x = "La Colonia or Not",
+       y = "Question Response Score") +
+  geom_smooth(method = "lm", se = FALSE, aes(group = 1), color = "#2E86C1") +  # Add linear regression line
+  scale_y_continuous(limits = c(4, 6), breaks = seq(4, 6, by = 0.2)) +  # Set y-axis limits from 4 to 6
+  theme_minimal()
+
+# Fit linear regression model
+lm_model <- lm(preg_score ~ colonia, data = df)
+
+# Display summary of the linear regression model
+summary(lm_model)
+```
+
+```{r}
+library(tidyr)
+library(ggplot2)
+
+df <- data.frame(
+  colonia = c(0, 1),
+  preg_score = c(5.24795, 5.3026027027)
+)
+
+
+
+# Create the plot with ggplot2
+ggplot(df, aes(x = colonia, y = preg_score)) +
+  geom_point(color = "#000045", size = 3, alpha = 0.8) +  # Custom color, size, and transparency
+  labs(title = "La Colonia or Not vs. Average Response Score",
+       x = "La Colonia or No",
+       y = "Question Response Score") +
+  stat_smooth(method = "lm", se = FALSE, color = "#2E86C1") +  # Add linear regression line
+  scale_y_continuous(limits = c(4, 6)) +  # Set y-axis limits from 4 to 6
+  theme_minimal()
+
+# Fit linear regression model
+lm_model <- lm(preg_score ~ as.numeric(colonia), data = df)  # Note: Convert factor to numeric for lm
+
+# Display summary of the linear regression model
+summary(lm_model)
+```
+
+```{r}
+qual_edit <- qual_edit %>%
+  ggplot(aes(x = last_grade, y = preg_score)) +
+  geom_point() +
+  scale_y_continuous(limits = c(0, 1.25)) +
+  geom_smooth(method = "lm", se = FALSE) +
+  theme_minimal()
 ```
 
 Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see <https://quarto.org>.
