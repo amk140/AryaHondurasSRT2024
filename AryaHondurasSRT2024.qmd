@@ -41,18 +41,22 @@ qual_tibble %>%
 ```
 
 ```{r}
-qual |>
-  filter(preg_seis != 'NA')|>
-  filter(island_region == '5') |>
- count(preg_seis) |>
+library(readr)
+qual_edit <- read_csv("arya copy of RStudio_GitHub Merged Data (QUAL) - Qual.csv")
+View(qual_edit)
+```
+
+```{r}
+qual_edit |>
+  filter(preg_score != 'NA')|>
+  filter(last_grade == '13') |>
+ count(preg_score) |>
 mutate(prob = n/sum(n))
-
-
 ```
 
 ```{r}
 qual |>
-  count(colonia) |>
+  count(vax_location) |>
   mutate(prob = n/sum(n))
 ```
 
@@ -175,11 +179,11 @@ library(ggplot2)
 library(dplyr)
 
 # Filter out NA values (if any)
-qual <- qual %>%
+qualnew <- qual %>%
   filter(!is.na(island_region))
 
 # Calculate counts for each category
-count_df <- qual %>%
+count_df <- qualnew %>%
   count(island_region)
 
 # Plot the bar graph with counts on top
@@ -189,6 +193,28 @@ ggplot(data = count_df, aes(x = island_region, y = n, fill = island_region)) +
   labs(x = "Island Region", y = "# of Respondents", title = "Distribution of Respondent Residences", fill = "Region") +
   theme(axis.text.x = element_blank())
   ggsave("plot2.png")
+```
+
+```{r}
+library(ggplot2)
+library(dplyr)
+
+qualnew1 <- qual_edit %>%
+  filter(!is.na(last_grade))
+
+ggplot(qualnew1, aes(x = last_grade, y = preg_score)) +
+  geom_point() +
+  labs(title = "Scatter Plot: Last Grade Completed vs. Question Response Score",
+       x = "Last Grade Completed",
+       y = "Question Response Score") +
+  theme_minimal()
+ggplot(your_data, aes(x = last_grade, y = preg_score)) +
+  geom_point(color = "#FF5733", size = 3, alpha = 0.8) +  # Custom color, size, and transparency
+  labs(title = "Scatter Plot: Last Grade Completed vs. Question Response Score",
+       x = "Last Grade Completed",
+       y = "Question Response Score") +
+  geom_smooth(method = "lm", se = FALSE, color = "#2E86C1") +  # Add linear regression line
+  theme_minimal()
 ```
 
 ```{r}
@@ -343,6 +369,36 @@ ggplot(df_long, aes(x = Vaccine, y = Percentage, fill = Category)) +
   theme(
     axis.text.x = element_text(angle = 80, vjust = 0.2, hjust = 0.03))
 
+```
+
+```{r}
+#Correlational analysis plot: education level vs response score
+library(tidyr)
+library(ggplot2)
+
+df <- data.frame(
+  last_grade = c(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13),
+  preg_score = c(4.7, 5.6, 5.1, 5.575, 5.3, 5.5, 5.1875, 5.05, 5.113636, 5.3173076923, 5.53333, 5.167, 5.261682243, 5.4346826087)
+)
+
+# Convert last_grade to factor to display all values on x-axis
+
+# Create the plot with ggplot2
+ggplot(df, aes(x = last_grade, y = preg_score)) +
+  geom_point(color = "#000045", size = 3, alpha = 0.8) +  # Custom color, size, and transparency
+  labs(title = "Last Grade of School Completed vs. Average Response Score",
+       x = "Last Grade Completed",
+       y = "Question Response Score") +
+  geom_smooth(method = "lm", se = FALSE, color = "#2E86C1") +  # Add linear regression line
+  scale_x_continuous(breaks = seq(0, 13, by = 1)) + 
+  scale_y_continuous(limits = c(4,6), breaks = seq (4, 6, by = 0.2)) +  # Set y-axis limits from 4 to 6
+  theme_minimal()
+
+# Fit linear regression model
+lm_model <- lm(preg_score ~ as.numeric(last_grade), data = df)  # Note: Convert factor to numeric for lm
+
+# Display summary of the linear regression model
+summary(lm_model)
 ```
 
 Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see <https://quarto.org>.
