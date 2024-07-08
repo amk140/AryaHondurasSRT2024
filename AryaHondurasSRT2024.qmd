@@ -431,31 +431,22 @@ summary(lm_model)
 ```
 
 ```{r}
-library(tidyr)
+# Load ggplot2 package
 library(ggplot2)
 
-df <- data.frame(
-  colonia = c(0, 1),
-  preg_score = c(5.24795, 5.3026027027)
+# Sample data
+data <- data.frame(
+  category = c("La Colonia", "Non-Colonia"),
+  value = c(5.30, 5.25)
 )
 
+# Create a bar plot using ggplot with y-axis range from 0 to 6
+ggplot(data, aes(x = category, y = value)) +
+  geom_bar(stat = "identity", fill = "skyblue") +
+  geom_text(aes(label = value), vjust = -0.5, color = "black", size = 3.5) +
+  labs(title = "Average Response Score: La Colonia vs Non-Colonia Communities", x = "La Colonia or No", y = "Question Response Score") +
+  coord_cartesian(ylim = c(0, 6))  # Setting y-axis limits from 0 to 6
 
-
-# Create the plot with ggplot2
-ggplot(df, aes(x = colonia, y = preg_score)) +
-  geom_point(color = "#000045", size = 3, alpha = 0.8) +  # Custom color, size, and transparency
-  labs(title = "La Colonia or Not vs. Average Response Score",
-       x = "La Colonia or No",
-       y = "Question Response Score") +
-  stat_smooth(method = "lm", se = FALSE, color = "#2E86C1") +  # Add linear regression line
-  scale_y_continuous(limits = c(4, 6)) +  # Set y-axis limits from 4 to 6
-  theme_minimal()
-
-# Fit linear regression model
-lm_model <- lm(preg_score ~ as.numeric(colonia), data = df)  # Note: Convert factor to numeric for lm
-
-# Display summary of the linear regression model
-summary(lm_model)
 ```
 
 ```{r}
@@ -465,6 +456,69 @@ qual_edit <- qual_edit %>%
   scale_y_continuous(limits = c(0, 1.25)) +
   geom_smooth(method = "lm", se = FALSE) +
   theme_minimal()
+```
+
+```{r}
+qual |>
+  filter(vax_location != 'NA')|>
+  filter(colonia == 'No') |>
+ count(vax_location) |>
+mutate(prob = n/sum(n))
+```
+
+```{r}
+
+# Load necessary libraries
+library(ggplot2)
+
+# Sample data
+categories <- c("La Colonia", "Non-Colonia")
+percentages <- c(41.59, 29.34)
+
+# Create a data frame
+df <- data.frame(categories = categories, percentages = percentages)
+
+# Create a bar plot using ggplot2
+ggplot(df, aes(x = categories, y = percentages)) +
+  geom_bar(stat = "identity", fill = "skyblue") +
+  geom_text(aes(label = paste0(percentages, "%")), 
+            vjust = -0.5, size = 4, color = "black") +  # Add percentages as labels
+  labs(title = "% of Respondents Who Vaccinate Their Children at CE: La Colonia vs Non-Colonia Communities", 
+       x = "La Colonia or Non-Colonia", 
+       y = "Percentage of Respondents") +
+  ylim(0, 100)  # Set y-axis limits to 0-100 for percentages
+
+```
+
+```{r}
+library(readr)  # For reading CSV files
+library(ggplot2)  # For plotting
+
+removed_NA <- qual_edit |>
+  filter(!is.na(preg_score), !is.na(last_grade))
+
+removed_NA |> 
+  ggplot(aes(x = last_grade, y = preg_score)) +
+  geom_point(color = "#000045", size = 2, alpha = 0.7) +  # Blue points with transparency
+  geom_smooth(method = "lm", se = FALSE, color = "#2E86C1", size = 1.2) +  # Red regression line
+  labs(title = "Last Grade of School Finished vs. Response Score",       # Title of the plot
+       x = "Last Grade Completed", y = "Question Response Score") + 
+  scale_x_continuous(breaks = seq(0, 13, by = 1)) + 
+  scale_y_continuous(limits = c(0,6)) + # Labels for x and y axes
+  theme_minimal() +  # Minimalistic theme
+  theme(
+    legend.title = element_blank(),  # Remove legend title
+    legend.text = element_text(size = 12)  # Legend text formatting
+  ) 
+# Fit linear regression model
+# Display summary of the linear regression model
+summary(lm_model)
+```
+
+```{r}
+library(readr)
+qual_edit <- read_csv("arya copy of RStudio_GitHub Merged Data (QUAL) - Qual.csv")
+View(qual_edit)
 ```
 
 Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see <https://quarto.org>.
