@@ -25,6 +25,12 @@ View(qual)
 ```
 
 ```{r}
+library(readr)
+qual_edit <- read_csv("arya copy of RStudio_GitHub Merged Data (QUAL) - Qual.csv")
+View(qual_edit)
+```
+
+```{r}
 #pie chart for clinic versus community surveys
 library(magrittr)
 
@@ -49,9 +55,13 @@ View(qual_edit)
 ```{r}
 qual_edit |>
   filter(preg_score != 'NA')|>
-  filter(colonia == 'No') |>
+  filter(island_region == '5') |>
  count(preg_score) |>
 mutate(prob = n/sum(n))
+```
+
+```{r}
+kruskal.test(pregtres_yes ~ isl_reg, data = qual_edit)
 ```
 
 ```{r}
@@ -190,7 +200,7 @@ count_df <- qualnew %>%
 ggplot(data = count_df, aes(x = island_region, y = n, fill = island_region)) +
   geom_bar(stat = "identity") +
   geom_text(aes(label = n), vjust = -0.5, size = 2.3, color = "black") +  # Add text labels on top of bars
-  labs(x = "Island Region", y = "# of Respondents", title = "Distribution of Respondent Residences", fill = "Region") +
+  labs(x = "Island Region", y = "# of Respondents", title = "Distribution of Respondent Residences by Island Region", fill = "Region") +
   theme(axis.text.x = element_blank())
   ggsave("plot2.png")
 ```
@@ -519,6 +529,46 @@ summary(lm_model)
 library(readr)
 qual_edit <- read_csv("arya copy of RStudio_GitHub Merged Data (QUAL) - Qual.csv")
 View(qual_edit)
+```
+
+```{r}
+# Load necessary libraries
+library(ggplot2)
+
+# Sample data
+categories <- c("1", "2", "3", "4","5")
+percentages <- c(43.96, 25, 20.63, 21.74, 0)
+
+# Create a data frame
+df <- data.frame(categories = categories, percentages = percentages)
+
+# Create a bar plot using ggplot2
+ggplot(df, aes(x = categories, y = percentages)) +
+  geom_bar(stat = "identity", fill = "skyblue") +
+  geom_text(aes(label = paste0(percentages, "%")), 
+            vjust = -0.5, size = 4, color = "black") +  # Add percentages as labels
+  labs(title = "% of Respondents Who Vaccinate Their Children at CE Based on Island Region", 
+       x = "Island Region", 
+       y = "Percentage of Respondents") +
+  ylim(0, 100)  # Set y-axis limits to 0-100 for percentages
+```
+
+```{r}
+# Load ggplot2 package
+library(ggplot2)
+
+# Sample data
+data <- data.frame(
+  category = c("1", "2", "3", "4", "5"),
+  value = c(5.28, 5.20, 5.25, 5.37, 5.64)
+)
+
+# Create a bar plot using ggplot with y-axis range from 0 to 6
+ggplot(data, aes(x = category, y = value)) +
+  geom_bar(stat = "identity", fill = "skyblue") +
+  geom_text(aes(label = value), vjust = -0.5, color = "black", size = 3.5) +
+  labs(title = "Average Response Score by Island Region", x = "Island Region", y = "Question Response Score") +
+  coord_cartesian(ylim = c(0, 6))  # Setting y-axis limits from 0 to 6
 ```
 
 Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see <https://quarto.org>.
